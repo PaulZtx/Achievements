@@ -32,13 +32,14 @@ TIMER2_STR:
 
 
 Reset: 
-	call uart_init
 
 	; Инициализация стека
 	ldi temp, high(RAMEND)
     out SPH, temp
     ldi temp, low(RAMEND)
     out SPL, temp
+
+    call uart_init
 
 	; === НАСТРОЙКА ТАЙМЕРА 0 ===
 	ldi temp, 0b00000101	; предделитель 1024
