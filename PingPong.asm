@@ -32,7 +32,6 @@ TIMER2_STR:
 
 
 Reset: 
-
 	; Инициализация стека
 	ldi temp, high(RAMEND)
     out SPH, temp
@@ -117,15 +116,11 @@ timer2_end:
 send_message1:
     push ZL
     push ZH
-    push data
-    push r23
     
 	ldi ZL, low(TIMER0_STR*2)
     ldi ZH, high(TIMER0_STR*2)
     rcall uart_print     
     
-    pop r23
-    pop data
     pop ZH
     pop ZL
 	ret
@@ -133,15 +128,11 @@ send_message1:
 send_message2:
     push ZL
     push ZH
-    push data
-    push r24
     
 	ldi ZL, low(TIMER2_STR*2)
     ldi ZH, high(TIMER2_STR*2)
     rcall uart_print     
     
-    pop r24
-    pop data
     pop ZH
     pop ZL
 	ret
