@@ -11,7 +11,6 @@
 .def temp_uart = r19
 .def data = r20
 
-
 .equ TIMER0_INTERVAL = 100    ; Таймер 0: срабатывает первым
 .equ TIMER2_INTERVAL = 200    ; Таймер 2: срабатывает позже
 
