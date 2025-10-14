@@ -11,9 +11,9 @@
 .def temp_uart = r19
 .def data = r20
 
-.equ TIMER0_INTERVAL = 100    ; Таймер 0: срабатывает первым
-.equ TIMER2_INTERVAL = 200    ; Таймер 2: срабатывает позже
-
+.equ TIMER0_INTERVAL = 1    ; Таймер 0: срабатывает первым
+.equ TIMER2_INTERVAL = 2    ; Таймер 2: срабатывает позже
+; === Минимальная сумма равна 3 ===
 
 .org 0x0000             
 rjmp Reset  
