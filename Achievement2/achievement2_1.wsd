@@ -1,0 +1,29 @@
+@startuml "Диаграмма компонентов"
+
+package "Серверная часть" {
+    [Сервер приложений] as ServerApp
+    [Веб-сервер] as ServerWeb
+    database "База данных" as db
+}
+
+package "Клиентская часть" {
+  [Клиент] as Client
+  [Веб-браузер] as browser
+}
+
+Client -> browser       : Использует
+browser --> ServerWeb   : HTTP запросы
+ServerWeb --> ServerApp : Рередача запроса 
+ServerApp --> db        : Запросы к БД
+db --> ServerApp        : Результаты c данными
+ServerApp --> ServerWeb : Обработанные данные
+ServerWeb --> browser   : HTTP ответы
+
+note right of ServerApp
+  Проверяет:
+  - Дублирование чисел
+  - Последовательность чисел
+  - Увеличивает число на 1
+end note
+
+@enduml

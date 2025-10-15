@@ -1,0 +1,41 @@
+@startuml "Диаграмма последовательности"
+actor Клиент as Client
+participant "Веб-браузер" as Browser
+participant "Веб-сервер" as WebServer
+participant "Сервер приложений" as AppServer
+participant "База данных" as Database
+participant "Логгер" as Logger
+
+Client -> Browser : HTTP POST /increment
+Browser -> WebServer : {"number": input_number}
+WebServer -> AppServer : processNumber(input_number)
+
+group "Основная логика обработки"
+
+    alt Работа без ошибок
+        AppServer -> Database       : checkNumberExists(input_number)
+        Database --> AppServer      : exists_flag = False
+        AppServer --> WebServer     : HTTP Response 200 (n + 1)
+    else 
+    alt Число вне диапазона 0..N
+        AppServer --> WebServer     : {"error": "Число вне диапазона"}
+        AppServer --> Logger        : {"error": "Число вне диапазона"}
+    end
+    alt Число уже существует
+        AppServer -> Database       : checkNumberExists(input_number)
+        Database --> AppServer      : exists_flag = True
+        AppServer --> Logger        : {"error": "Число уже обработано"}
+        AppServer --> WebServer     : {"error": "Число уже обработано"}
+    end
+    alt Число, меньшее предыдущих
+        AppServer -> Database       : checkNumberExists(input_number + 1)
+        Database --> AppServer      : exists_flag = True
+        AppServer --> Logger     : {"error": "Число, меньше предыдущих"}
+        AppServer --> WebServer     : {"error": "Число, меньше предыдущих"}
+    end
+end
+
+WebServer --> Browser : HTTP Response
+Browser --> Client : Отображает результат/ошибку
+
+@enduml
